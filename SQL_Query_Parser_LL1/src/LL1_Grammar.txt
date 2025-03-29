@@ -1,0 +1,47 @@
+<sql_statement> → <select_statement>
+                | <insert_statement>
+                | <delete_statement>
+
+<select_statement> → SELECT <column_list> FROM table_name <optional_clauses> ;
+
+<optional_clauses> → <where_clause> <order_by_clause>? <group_by_clause>?
+                   | <order_by_clause> <group_by_clause>?
+                   | <group_by_clause>
+                   | ε
+
+<insert_statement> → INSERT INTO table_name <insert_values> ;
+
+<insert_values> → ( <column_list> ) VALUES ( <value_list> )
+                | VALUES ( <value_list> )  /* No ambiguity */
+
+<delete_statement> → DELETE FROM table_name <where_clause> ;
+
+<where_clause> → WHERE <condition>
+
+<order_by_clause> → ORDER BY column_name <order_type>?
+<order_type> → ASC | DESC | ε
+
+<group_by_clause> → GROUP BY column_name
+
+<column_list> → *
+              | column_name <column_list_tail>
+
+<column_list_tail> → , column_name <column_list_tail>
+                   | ε
+
+<value_list> → value <value_list_tail>
+
+<value_list_tail> → , value <value_list_tail>
+                  | ε
+
+<condition> → <simple_condition> <condition_tail>
+
+<simple_condition> → attribute_name <operator> value
+                   | ( <condition> )
+                   | NOT <condition>
+
+<condition_tail> → AND <simple_condition> <condition_tail>
+                 | OR <simple_condition> <condition_tail>
+                 | ε
+
+<operator> → = | > | <
