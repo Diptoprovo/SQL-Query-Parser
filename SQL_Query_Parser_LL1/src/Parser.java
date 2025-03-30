@@ -48,7 +48,7 @@ class Parser {
 
         parsingTable.put("column_list", Map.of(
                 TokenType.IDENTIFIER, List.of("IDENTIFIER", "column_list_tail"),
-                TokenType.STAR, List.of("*")
+                TokenType.STAR, List.of("STAR")
         ));
 
         parsingTable.put("column_list_tail", Map.of(
@@ -81,7 +81,19 @@ class Parser {
         ));
 
         parsingTable.put("condition", Map.of(
-                TokenType.IDENTIFIER, List.of("IDENTIFIER", "operator", "value", "condition_tail")
+                TokenType.IDENTIFIER, List.of("IDENTIFIER", "operator_or_is", "condition_tail")
+        ));
+
+        parsingTable.put("operator_or_is", Map.of(
+                TokenType.EQUALS, List.of("EQUALS", "value"),
+                TokenType.GREATER, List.of("GREATER", "value"),
+                TokenType.LESS, List.of("LESS", "value"),
+                TokenType.IS, List.of("IS", "is_null_opt")  // IS NULL / IS NOT NULL support
+        ));
+
+        parsingTable.put("is_null_opt", Map.of(
+                TokenType.NULL, List.of("NULL"),  // IS NULL
+                TokenType.NOT, List.of("NOT", "NULL")  // IS NOT NULL
         ));
 
         parsingTable.put("condition_tail", Map.of(
@@ -132,7 +144,7 @@ class Parser {
                 Collections.reverse(mutableProduction);
                 parseStack.addAll(mutableProduction);
             } else if (top.equals(currentToken.type.name())) {
-                currentToken = lexer.getNextToken();
+                currentToken = lexer.getNextToken();            
             } else {
                 throw new RuntimeException("Syntax Error: Expected " + top + " but found " + currentToken.value);
             }
