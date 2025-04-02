@@ -1,0 +1,74 @@
+{
+  ("<sql_statement>", "SELECT"): "<select_statement>",
+  ("<sql_statement>", "INSERT"): "<insert_statement>",
+  ("<sql_statement>", "DELETE"): "<delete_statement>"
+}
+
+{
+  ("<select_statement>", "SELECT"): "SELECT <column_list> FROM table_name <optional_clauses> ;"
+}
+
+{
+  ("<insert_statement>", "INSERT"): "INSERT INTO table_name <insert_values> ;"
+}
+
+{
+  ("<optional_clauses>", "WHERE"): "<where_clause> <order_by_clause>? <group_by_clause>?",
+  ("<optional_clauses>", "ORDER"): "<order_by_clause> <group_by_clause>?",
+  ("<optional_clauses>", "GROUP"): "<group_by_clause>",
+  ("<optional_clauses>", ";"): "ε"
+}
+
+{
+  ("<insert_values>", "("): "( <column_list> ) VALUES ( <value_list> )",
+  ("<insert_values>", "VALUES"): "VALUES ( <value_list> )"
+}
+
+{
+  ("<where_clause>", "WHERE"): "WHERE <condition>"
+}
+{
+  ("<order_by_clause>", "ORDER"): "ORDER BY column_name <order_type>?"
+}
+{
+  ("<group_by_clause>", "GROUP"): "GROUP BY column_name"
+}
+
+{
+  ("<column_list>", "*"): "*",
+  ("<column_list>", "column_name"): "column_name <column_list_tail>"
+}
+{
+  ("<column_list_tail>", ","): ", column_name <column_list_tail>",
+  ("<column_list_tail>", ")"): "ε"
+}
+{
+  ("<value_list>", "value"): "value <value_list_tail>"
+}
+{
+  ("<value_list_tail>", ","): ", value <value_list_tail>",
+  ("<value_list_tail>", ")"): "ε"
+}
+
+{
+  ("<condition>", "attribute_name"): "<simple_condition> <condition_tail>",
+  ("<condition>", "("): "<simple_condition> <condition_tail>",
+  ("<condition>", "NOT"): "<simple_condition> <condition_tail>"
+}
+{
+  ("<simple_condition>", "attribute_name"): "attribute_name <operator> value",
+  ("<simple_condition>", "("): "( <condition> )",
+  ("<simple_condition>", "NOT"): "NOT <condition>"
+}
+{
+  ("<condition_tail>", "AND"): "AND <simple_condition> <condition_tail>",
+  ("<condition_tail>", "OR"): "OR <simple_condition> <condition_tail>",
+  ("<condition_tail>", ";"): "ε",
+  ("<condition_tail>", ")"): "ε"
+}
+
+{
+  ("<operator>", "="): "=",
+  ("<operator>", ">"): ">",
+  ("<operator>", "<"): "<"
+}
