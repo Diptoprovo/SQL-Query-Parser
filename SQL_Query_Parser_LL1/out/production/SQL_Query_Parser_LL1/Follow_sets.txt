@@ -1,16 +1,21 @@
-FOLLOW(<sql_statement>) = { $ }   /* End of input */
-FOLLOW(<select_statement>) = { $ }
-FOLLOW(<insert_statement>) = { $ }
-FOLLOW(<delete_statement>) = { $ }
-FOLLOW(<optional_clauses>) = { ; }
-FOLLOW(<where_clause>) = { ORDER, GROUP, ; }
-FOLLOW(<order_by_clause>) = { GROUP, ; }
-FOLLOW(<group_by_clause>) = { ; }
-FOLLOW(<column_list>) = { ) }
-FOLLOW(<column_list_tail>) = { ) }
-FOLLOW(<value_list>) = { ) }
-FOLLOW(<value_list_tail>) = { ) }
-FOLLOW(<condition>) = { ;, ) }
-FOLLOW(<simple_condition>) = { AND, OR, ;, ) }
-FOLLOW(<condition_tail>) = { ;, ) }
-FOLLOW(<operator>) = { value }
+group_by_clause_opt      : ORDER, SEMICOLON
+condition_tail           : GROUP, ORDER, SEMICOLON
+delete_statement         : $
+is_null_opt              : GROUP, ORDER, OR, SEMICOLON, AND
+sql_statement            : $
+select_statement         : $
+insert_statement         : $
+value_list_tail          : RPAREN
+value_list               : RPAREN
+insert_tail              : $
+column_list_opt          : VALUES
+where_clause_opt         : GROUP, ORDER, SEMICOLON
+order_direction_opt      : SEMICOLON
+condition                : GROUP, ORDER, SEMICOLON
+order_by_clause_opt      : SEMICOLON
+column_list_opt_tail     : RPAREN
+column_list_tail         : FROM
+column_list_opt_ext      : RPAREN
+column_list              : FROM
+operator_or_is           : GROUP, ORDER, OR, SEMICOLON, AND
+value                    : COMMA, GROUP, ORDER, OR, SEMICOLON, AND, RPAREN

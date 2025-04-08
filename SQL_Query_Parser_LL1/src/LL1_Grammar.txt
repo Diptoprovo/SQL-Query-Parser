@@ -1,47 +1,22 @@
-<sql_statement> → <select_statement>
-                | <insert_statement>
-                | <delete_statement>
+sql_statement -> select_statement | insert_statement | delete_statement
+select_statement -> SELECT column_list FROM IDENTIFIER where_clause_opt group_by_clause_opt order_by_clause_opt SEMICOLON
+insert_statement -> INSERT INTO IDENTIFIER column_list_opt insert_tail
+insert_tail -> VALUES LPAREN value_list RPAREN SEMICOLON
+column_list_opt -> LPAREN column_list_opt_ext RPAREN | ε
+column_list_opt_ext -> IDENTIFIER column_list_opt_tail
+column_list_opt_tail -> COMMA IDENTIFIER column_list_opt_tail | ε
+delete_statement -> DELETE FROM IDENTIFIER where_clause_opt SEMICOLON
+column_list -> IDENTIFIER column_list_tail | STAR
+column_list_tail -> COMMA IDENTIFIER column_list_tail | ε
+where_clause_opt -> WHERE condition | ε
+group_by_clause_opt -> GROUP BY IDENTIFIER | ε
+order_by_clause_opt -> ORDER BY IDENTIFIER order_direction_opt | ε
+order_direction_opt -> ASC | DESC | ε
+condition -> IDENTIFIER operator_or_is condition_tail
+operator_or_is -> EQUALS value | GREATER value | LESS value | IS is_null_opt
+is_null_opt -> NULL | NOT NULL
+condition_tail -> AND condition | OR condition | ε
+value -> NUMBER | STRING
+value_list -> value value_list_tail
+value_list_tail -> COMMA value value_list_tail | ε
 
-<select_statement> → SELECT <column_list> FROM table_name <optional_clauses> ;
-
-<optional_clauses> → <where_clause> <order_by_clause>? <group_by_clause>?
-                   | <order_by_clause> <group_by_clause>?
-                   | <group_by_clause>
-                   | ε
-
-<insert_statement> → INSERT INTO table_name <insert_values> ;
-
-<insert_values> → ( <column_list> ) VALUES ( <value_list> )
-                | VALUES ( <value_list> )  /* No ambiguity */
-
-<delete_statement> → DELETE FROM table_name <where_clause> ;
-
-<where_clause> → WHERE <condition>
-
-<order_by_clause> → ORDER BY column_name <order_type>?
-<order_type> → ASC | DESC | ε
-
-<group_by_clause> → GROUP BY column_name
-
-<column_list> → *
-              | column_name <column_list_tail>
-
-<column_list_tail> → , column_name <column_list_tail>
-                   | ε
-
-<value_list> → value <value_list_tail>
-
-<value_list_tail> → , value <value_list_tail>
-                  | ε
-
-<condition> → <simple_condition> <condition_tail>
-
-<simple_condition> → attribute_name <operator> value
-                   | ( <condition> )
-                   | NOT <condition>
-
-<condition_tail> → AND <simple_condition> <condition_tail>
-                 | OR <simple_condition> <condition_tail>
-                 | ε
-
-<operator> → = | > | <

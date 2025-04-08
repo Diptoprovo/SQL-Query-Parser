@@ -1,74 +1,46 @@
-{
-  ("<sql_statement>", "SELECT"): "<select_statement>",
-  ("<sql_statement>", "INSERT"): "<insert_statement>",
-  ("<sql_statement>", "DELETE"): "<delete_statement>"
-}
-
-{
-  ("<select_statement>", "SELECT"): "SELECT <column_list> FROM table_name <optional_clauses> ;"
-}
-
-{
-  ("<insert_statement>", "INSERT"): "INSERT INTO table_name <insert_values> ;"
-}
-
-{
-  ("<optional_clauses>", "WHERE"): "<where_clause> <order_by_clause>? <group_by_clause>?",
-  ("<optional_clauses>", "ORDER"): "<order_by_clause> <group_by_clause>?",
-  ("<optional_clauses>", "GROUP"): "<group_by_clause>",
-  ("<optional_clauses>", ";"): "ε"
-}
-
-{
-  ("<insert_values>", "("): "( <column_list> ) VALUES ( <value_list> )",
-  ("<insert_values>", "VALUES"): "VALUES ( <value_list> )"
-}
-
-{
-  ("<where_clause>", "WHERE"): "WHERE <condition>"
-}
-{
-  ("<order_by_clause>", "ORDER"): "ORDER BY column_name <order_type>?"
-}
-{
-  ("<group_by_clause>", "GROUP"): "GROUP BY column_name"
-}
-
-{
-  ("<column_list>", "*"): "*",
-  ("<column_list>", "column_name"): "column_name <column_list_tail>"
-}
-{
-  ("<column_list_tail>", ","): ", column_name <column_list_tail>",
-  ("<column_list_tail>", ")"): "ε"
-}
-{
-  ("<value_list>", "value"): "value <value_list_tail>"
-}
-{
-  ("<value_list_tail>", ","): ", value <value_list_tail>",
-  ("<value_list_tail>", ")"): "ε"
-}
-
-{
-  ("<condition>", "attribute_name"): "<simple_condition> <condition_tail>",
-  ("<condition>", "("): "<simple_condition> <condition_tail>",
-  ("<condition>", "NOT"): "<simple_condition> <condition_tail>"
-}
-{
-  ("<simple_condition>", "attribute_name"): "attribute_name <operator> value",
-  ("<simple_condition>", "("): "( <condition> )",
-  ("<simple_condition>", "NOT"): "NOT <condition>"
-}
-{
-  ("<condition_tail>", "AND"): "AND <simple_condition> <condition_tail>",
-  ("<condition_tail>", "OR"): "OR <simple_condition> <condition_tail>",
-  ("<condition_tail>", ";"): "ε",
-  ("<condition_tail>", ")"): "ε"
-}
-
-{
-  ("<operator>", "="): "=",
-  ("<operator>", ">"): ">",
-  ("<operator>", "<"): "<"
-}
+group_by_clause_opt -> GROUP : GROUP BY IDENTIFIER
+group_by_clause_opt -> ORDER : ε
+group_by_clause_opt -> SEMICOLON : ε
+condition_tail -> GROUP : ε
+condition_tail -> ORDER : ε
+condition_tail -> OR : OR condition
+condition_tail -> SEMICOLON : ε
+condition_tail -> AND : AND condition
+delete_statement -> DELETE : DELETE FROM IDENTIFIER where_clause_opt SEMICOLON
+is_null_opt -> NOT : NOT NULL
+is_null_opt -> NULL : NULL
+sql_statement -> DELETE : delete_statement
+sql_statement -> INSERT : insert_statement
+sql_statement -> SELECT : select_statement
+select_statement -> SELECT : SELECT column_list FROM IDENTIFIER where_clause_opt group_by_clause_opt order_by_clause_opt SEMICOLON
+insert_statement -> INSERT : INSERT INTO IDENTIFIER column_list_opt insert_tail
+value_list_tail -> COMMA : COMMA value value_list_tail
+value_list_tail -> RPAREN : ε
+value_list -> NUMBER : value value_list_tail
+value_list -> STRING : value value_list_tail
+insert_tail -> VALUES : VALUES LPAREN value_list RPAREN SEMICOLON
+column_list_opt -> LPAREN : LPAREN column_list_opt_ext RPAREN
+column_list_opt -> VALUES : ε
+where_clause_opt -> GROUP : ε
+where_clause_opt -> ORDER : ε
+where_clause_opt -> SEMICOLON : ε
+where_clause_opt -> WHERE : WHERE condition
+order_direction_opt -> ASC : ASC
+order_direction_opt -> SEMICOLON : ε
+order_direction_opt -> DESC : DESC
+condition -> IDENTIFIER : IDENTIFIER operator_or_is condition_tail
+order_by_clause_opt -> ORDER : ORDER BY IDENTIFIER order_direction_opt
+order_by_clause_opt -> SEMICOLON : ε
+column_list_opt_tail -> COMMA : COMMA IDENTIFIER column_list_opt_tail
+column_list_opt_tail -> RPAREN : ε
+column_list_tail -> COMMA : COMMA IDENTIFIER column_list_tail
+column_list_tail -> FROM : ε
+column_list_opt_ext -> IDENTIFIER : IDENTIFIER column_list_opt_tail
+column_list -> STAR : STAR
+column_list -> IDENTIFIER : IDENTIFIER column_list_tail
+operator_or_is -> EQUALS : EQUALS value
+operator_or_is -> GREATER : GREATER value
+operator_or_is -> LESS : LESS value
+operator_or_is -> IS : IS is_null_opt
+value -> NUMBER : NUMBER
+value -> STRING : STRING
