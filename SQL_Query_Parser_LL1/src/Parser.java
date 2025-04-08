@@ -123,7 +123,7 @@ class Parser {
 //    }
 
     public Parser(Lexer lexer) {
-        GrammarLoader.loadParsingTable("src/parsing_table.txt", parsingTable);
+        GrammarLoader.loadParsingTable("SQL_Query_Parser_LL1/src/parsing_table.txt", parsingTable);
         this.lexer = lexer;
         this.currentToken = lexer.getNextToken();
         parseStack.push("sql_statement");

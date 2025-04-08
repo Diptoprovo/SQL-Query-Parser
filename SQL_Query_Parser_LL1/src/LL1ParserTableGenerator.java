@@ -16,12 +16,12 @@ public class LL1ParserTableGenerator {
 //        defineGrammar();
 //        defineFirstSets();
 //        defineFollowSets();
-        GrammarLoader.readGrammarFromFile("src/LL1_Grammar.txt", grammar);
-        GrammarLoader.readSetFromFile("src/first_set.txt", first);
-        GrammarLoader.readSetFromFile("src/follow_set.txt", follow);
+        GrammarLoader.readGrammarFromFile("SQL_Query_Parser_LL1/src/LL1_Grammar.txt", grammar);
+        GrammarLoader.readSetFromFile("SQL_Query_Parser_LL1/src/first_set.txt", first);
+        GrammarLoader.readSetFromFile("SQL_Query_Parser_LL1/src/follow_set.txt", follow);
         generateParsingTable();
         printParsingTable();
-        GrammarLoader.writeParsingTableToFile("src/parsing_table.txt", parsingTable);
+        GrammarLoader.writeParsingTableToFile("SQL_Query_Parser_LL1/src/parsing_table.txt", parsingTable);
     }
 
     static void generateParsingTable() {
