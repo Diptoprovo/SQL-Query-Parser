@@ -130,6 +130,7 @@ class Parser {
     }
 
     public void parseSQLStatement() {
+
         System.out.println(parsingTable);
         while (!parseStack.isEmpty()) {
             String top = parseStack.pop();
@@ -137,7 +138,7 @@ class Parser {
                 List<String> production = parsingTable.get(top).getOrDefault(currentToken.type, null);
                 if (production == null) {
                     System.out.println(top);
-                    throw new RuntimeException("Syntax Error: Unexpected token " + currentToken);
+                    throw new RuntimeException("Syntax Error: Expected a " + top +" but found token " + currentToken);
                 }
                 List<String> mutableProduction = new ArrayList<>(production);
                 Collections.reverse(mutableProduction);
@@ -147,6 +148,7 @@ class Parser {
             } else {
                 throw new RuntimeException("Syntax Error: Expected " + top + " but found " + currentToken.value);
             }
+
         }
         System.out.println("Parsing successful!");
     }

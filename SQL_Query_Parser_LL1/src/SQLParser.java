@@ -13,7 +13,6 @@ public class SQLParser {
         try {
             parser.parseSQLStatement();
         } catch (RuntimeException e) {
-            e.printStackTrace();
             System.err.println(e.getMessage());
         }
     }
