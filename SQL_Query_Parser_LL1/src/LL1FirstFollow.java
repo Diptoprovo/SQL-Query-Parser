@@ -11,12 +11,12 @@ public class LL1FirstFollow {
     static String startSymbol = "sql_statement";
 
     public static void main(String[] args)throws IOException {
-        GrammarLoader.readGrammarFromFile("SQL_Query_Parser_LL1/src/LL1_Grammar.txt", grammar);
+        GrammarLoader.readGrammarFromFile("src/LL1_Grammar.txt", grammar);
         computeFirstSets();
         computeFollowSets();
         printSets();
-        GrammarLoader.writeSetToFile(first, "SQL_Query_Parser_LL1/src/first_set.txt");
-        GrammarLoader.writeSetToFile(follow, "SQL_Query_Parser_LL1/src/follow_set.txt");
+        GrammarLoader.writeSetToFile(first, "src/first_set.txt");
+        GrammarLoader.writeSetToFile(follow, "src/follow_set.txt");
     }
 
     static void computeFirstSets() {
