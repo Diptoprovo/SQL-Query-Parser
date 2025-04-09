@@ -15,7 +15,7 @@ class Parser {
 
     public void parseSQLStatement() {
 
-        System.out.println(parsingTable);
+//        System.out.println(parsingTable);
         while (!parseStack.isEmpty()) {
             String top = parseStack.pop();
             if (parsingTable.containsKey(top)) {
