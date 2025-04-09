@@ -14,8 +14,6 @@ class Parser {
     }
 
     public void parseSQLStatement() {
-
-//        System.out.println(parsingTable);
         while (!parseStack.isEmpty()) {
             String top = parseStack.pop();
             if (parsingTable.containsKey(top)) {
@@ -32,7 +30,6 @@ class Parser {
             } else {
                 throw new RuntimeException("Syntax Error: Expected " + top + " but found " + currentToken.value);
             }
-
         }
         System.out.println("Parsing successful!");
     }
