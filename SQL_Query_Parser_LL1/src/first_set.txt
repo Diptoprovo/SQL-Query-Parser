@@ -1,4 +1,5 @@
 group_by_clause_opt: GROUP, ε
+not_opt: NOT, ε
 condition_tail: OR, ε, AND
 delete_statement: DELETE
 is_null_opt: NOT, NULL
@@ -11,11 +12,11 @@ insert_tail: VALUES
 column_list_opt: ε, LPAREN
 where_clause_opt: ε, WHERE
 order_direction_opt: ASC, ε, DESC
-condition: IDENTIFIER
+condition: NOT, IDENTIFIER
 order_by_clause_opt: ORDER, ε
 column_list_opt_tail: COMMA, ε
 column_list_tail: COMMA, ε
 column_list_opt_ext: IDENTIFIER
 column_list: STAR, IDENTIFIER
-operator_or_is: EQUALS, GREATER, LESS, IS
+operator_or_is: NOT, EQUALS, LIKE, GREATER, BETWEEN, LESS, IS
 value: NUMBER, STRING

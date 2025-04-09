@@ -1,6 +1,8 @@
 group_by_clause_opt -> GROUP : GROUP BY IDENTIFIER
 group_by_clause_opt -> ORDER : ε
 group_by_clause_opt -> SEMICOLON : ε
+not_opt -> NOT : NOT
+not_opt -> IDENTIFIER : ε
 condition_tail -> GROUP : ε
 condition_tail -> ORDER : ε
 condition_tail -> OR : OR condition
@@ -28,7 +30,8 @@ where_clause_opt -> WHERE : WHERE condition
 order_direction_opt -> ASC : ASC
 order_direction_opt -> SEMICOLON : ε
 order_direction_opt -> DESC : DESC
-condition -> IDENTIFIER : IDENTIFIER operator_or_is condition_tail
+condition -> NOT : not_opt IDENTIFIER operator_or_is condition_tail
+condition -> IDENTIFIER : not_opt IDENTIFIER operator_or_is condition_tail
 order_by_clause_opt -> ORDER : ORDER BY IDENTIFIER order_direction_opt
 order_by_clause_opt -> SEMICOLON : ε
 column_list_opt_tail -> COMMA : COMMA IDENTIFIER column_list_opt_tail
@@ -38,8 +41,11 @@ column_list_tail -> FROM : ε
 column_list_opt_ext -> IDENTIFIER : IDENTIFIER column_list_opt_tail
 column_list -> STAR : STAR
 column_list -> IDENTIFIER : IDENTIFIER column_list_tail
+operator_or_is -> NOT : NOT IN LPAREN value_list RPAREN
 operator_or_is -> EQUALS : EQUALS value
+operator_or_is -> LIKE : LIKE STRING
 operator_or_is -> GREATER : GREATER value
+operator_or_is -> BETWEEN : BETWEEN value AND value
 operator_or_is -> LESS : LESS value
 operator_or_is -> IS : IS is_null_opt
 value -> NUMBER : NUMBER

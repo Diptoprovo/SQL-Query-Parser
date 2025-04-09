@@ -1,4 +1,5 @@
 group_by_clause_opt: ORDER, SEMICOLON
+not_opt: IDENTIFIER
 condition_tail: GROUP, ORDER, SEMICOLON
 delete_statement: $
 is_null_opt: GROUP, ORDER, OR, SEMICOLON, AND

@@ -80,7 +80,10 @@ class Lexer {
                 case "OR": tokens.add(new Token(TokenType.OR, word)); continue;
                 case "NOT": tokens.add(new Token(TokenType.NOT, word)); continue;
                 case "IS": tokens.add(new Token(TokenType.IS, word)); continue;
+                case "BETWEEN": tokens.add(new Token(TokenType.BETWEEN, word)); continue;
+                case "LIKE": tokens.add(new Token(TokenType.LIKE, word)); continue;
                 case "NULL": tokens.add(new Token(TokenType.NULL, word)); continue;
+                case "IN": tokens.add(new Token(TokenType.IN, word)); continue;
                 default: tokens.add(new Token(TokenType.IDENTIFIER, word)); continue;
             }
         }

@@ -1,0 +1,10 @@
+--- Symbol Table ---
+ABC             : COLUMN    
+BJHSD           : COLUMN    
+JHSDFG          : COLUMN    
+TABLE1          : TABLE     
+RTY             : COLUMN    
+I               : COLUMN    
+AGE             : COLUMN    
+BAY             : COLUMN    
+GAYNESS         : COLUMN    
