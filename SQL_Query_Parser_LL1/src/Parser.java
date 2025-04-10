@@ -16,6 +16,8 @@ class Parser {
     public void parseSQLStatement() {
         while (!parseStack.isEmpty()) {
             String top = parseStack.pop();
+            if(top.equals("agg_fn") && (insideDelete || insideInsert))
+                throw new RuntimeException("Aggregate functions not supported in " + ((insideInsert) ? "INSERT" : "DELETE") + " statements");
             if (parsingTable.containsKey(top)) {
                 List<String> production = parsingTable.get(top).getOrDefault(currentToken.type, null);
                 if (production == null) {
