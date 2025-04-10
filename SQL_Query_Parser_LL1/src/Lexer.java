@@ -97,13 +97,16 @@ class Lexer {
             // Handle numbers
             if (Character.isDigit(c)) {
                 int start = i;
-                while (i < input.length() && Character.isDigit(input.charAt(i))) {
+                while (i < input.length() && (Character.isDigit(input.charAt(i)) || input.charAt(i) == '.')) {
                     i++;
                 }
-                tokens.add(new Token(TokenType.NUMBER, input.substring(start, i)));
-                continue;
+                if(input.substring(start, i).matches("[-+]?\\d+(\\.\\d+)?")) {
+                    tokens.add(new Token(TokenType.NUMBER, input.substring(start, i)));
+                    continue;
+                }
+                else {throw new RuntimeException("Illegal Token: " + input.substring(start, i));}
             }
-    
+
             // If we reach here, it's an unknown token
             tokens.add(new Token(TokenType.UNKNOWN, String.valueOf(c)));
             i++;
