@@ -10,7 +10,7 @@ public class LL1FirstFollow {
     static Map<String, Set<String>> follow = new HashMap<>();
     static String startSymbol = "sql_statement";
 
-    public static void main(String[] args)throws IOException {
+    public static void main(String[] args) throws IOException {
         GrammarLoader.readGrammarFromFile("src/LL1_Grammar.txt", grammar);
         computeFirstSets();
         computeFollowSets();

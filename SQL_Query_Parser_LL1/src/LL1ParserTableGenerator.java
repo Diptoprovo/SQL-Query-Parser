@@ -13,9 +13,6 @@ public class LL1ParserTableGenerator {
     static Map<String, Map<String, List<String>>> parsingTable = new HashMap<>();
 
     public static void main(String[] args)throws IOException {
-//        defineGrammar();
-//        defineFirstSets();
-//        defineFollowSets();
         GrammarLoader.readGrammarFromFile("src/LL1_Grammar.txt", grammar);
         GrammarLoader.readSetFromFile("src/first_set.txt", first);
         GrammarLoader.readSetFromFile("src/follow_set.txt", follow);
@@ -31,7 +28,6 @@ public class LL1ParserTableGenerator {
 
             for (List<String> production : productions) {
                 Set<String> firstSet = computeFirstOfString(production);
-
                 for (String terminal : firstSet) {
                     if (!terminal.equals("ε")) {
                         addToTable(nonTerminal, terminal, production);

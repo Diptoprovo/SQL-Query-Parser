@@ -2,6 +2,11 @@ group_by_clause_opt -> GROUP : GROUP BY IDENTIFIER
 group_by_clause_opt -> ORDER : ε
 group_by_clause_opt -> SEMICOLON : ε
 not_opt -> NOT : NOT
+not_opt -> AVG : ε
+not_opt -> MIN : ε
+not_opt -> MAX : ε
+not_opt -> SUM : ε
+not_opt -> COUNT : ε
 not_opt -> IDENTIFIER : ε
 condition_tail -> GROUP : ε
 condition_tail -> ORDER : ε
@@ -14,6 +19,17 @@ is_null_opt -> NULL : NULL
 sql_statement -> DELETE : delete_statement
 sql_statement -> INSERT : insert_statement
 sql_statement -> SELECT : select_statement
+agg_fn -> AVG : AVG
+agg_fn -> MIN : MIN
+agg_fn -> MAX : MAX
+agg_fn -> SUM : SUM
+agg_fn -> COUNT : COUNT
+id_or_agg_fn -> AVG : agg_fn LPAREN IDENTIFIER RPAREN
+id_or_agg_fn -> MIN : agg_fn LPAREN IDENTIFIER RPAREN
+id_or_agg_fn -> MAX : agg_fn LPAREN IDENTIFIER RPAREN
+id_or_agg_fn -> SUM : agg_fn LPAREN IDENTIFIER RPAREN
+id_or_agg_fn -> COUNT : agg_fn LPAREN IDENTIFIER RPAREN
+id_or_agg_fn -> IDENTIFIER : IDENTIFIER
 select_statement -> SELECT : SELECT column_list FROM IDENTIFIER where_clause_opt group_by_clause_opt order_by_clause_opt SEMICOLON
 insert_statement -> INSERT : INSERT INTO IDENTIFIER column_list_opt insert_tail
 value_list_tail -> COMMA : COMMA value value_list_tail
@@ -30,17 +46,27 @@ where_clause_opt -> WHERE : WHERE condition
 order_direction_opt -> ASC : ASC
 order_direction_opt -> SEMICOLON : ε
 order_direction_opt -> DESC : DESC
-condition -> NOT : not_opt IDENTIFIER operator_or_is condition_tail
-condition -> IDENTIFIER : not_opt IDENTIFIER operator_or_is condition_tail
+condition -> NOT : not_opt id_or_agg_fn operator_or_is condition_tail
+condition -> AVG : not_opt id_or_agg_fn operator_or_is condition_tail
+condition -> MIN : not_opt id_or_agg_fn operator_or_is condition_tail
+condition -> MAX : not_opt id_or_agg_fn operator_or_is condition_tail
+condition -> SUM : not_opt id_or_agg_fn operator_or_is condition_tail
+condition -> COUNT : not_opt id_or_agg_fn operator_or_is condition_tail
+condition -> IDENTIFIER : not_opt id_or_agg_fn operator_or_is condition_tail
 order_by_clause_opt -> ORDER : ORDER BY IDENTIFIER order_direction_opt
 order_by_clause_opt -> SEMICOLON : ε
 column_list_opt_tail -> COMMA : COMMA IDENTIFIER column_list_opt_tail
 column_list_opt_tail -> RPAREN : ε
-column_list_tail -> COMMA : COMMA IDENTIFIER column_list_tail
+column_list_tail -> COMMA : COMMA id_or_agg_fn column_list_tail
 column_list_tail -> FROM : ε
 column_list_opt_ext -> IDENTIFIER : IDENTIFIER column_list_opt_tail
+column_list -> AVG : id_or_agg_fn column_list_tail
+column_list -> MIN : id_or_agg_fn column_list_tail
 column_list -> STAR : STAR
-column_list -> IDENTIFIER : IDENTIFIER column_list_tail
+column_list -> MAX : id_or_agg_fn column_list_tail
+column_list -> SUM : id_or_agg_fn column_list_tail
+column_list -> COUNT : id_or_agg_fn column_list_tail
+column_list -> IDENTIFIER : id_or_agg_fn column_list_tail
 operator_or_is -> NOT : NOT IN LPAREN value_list RPAREN
 operator_or_is -> EQUALS : EQUALS value
 operator_or_is -> LIKE : LIKE STRING

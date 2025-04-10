@@ -84,6 +84,11 @@ class Lexer {
                 case "LIKE": tokens.add(new Token(TokenType.LIKE, word)); continue;
                 case "NULL": tokens.add(new Token(TokenType.NULL, word)); continue;
                 case "IN": tokens.add(new Token(TokenType.IN, word)); continue;
+                case "MAX": tokens.add(new Token(TokenType.MAX, word)); continue;
+                case "MIN": tokens.add(new Token(TokenType.MIN, word)); continue;
+                case "AVG": tokens.add(new Token(TokenType.AVG, word)); continue;
+                case "COUNT": tokens.add(new Token(TokenType.COUNT, word)); continue;
+                case "SUM": tokens.add(new Token(TokenType.SUM, word)); continue;
                 default: tokens.add(new Token(TokenType.IDENTIFIER, word)); continue;
             }
         }

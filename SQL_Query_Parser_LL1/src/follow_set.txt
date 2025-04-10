@@ -1,9 +1,11 @@
 group_by_clause_opt: ORDER, SEMICOLON
-not_opt: IDENTIFIER
+not_opt: AVG, MIN, MAX, SUM, COUNT, IDENTIFIER
 condition_tail: GROUP, ORDER, SEMICOLON
 delete_statement: $
 is_null_opt: GROUP, ORDER, OR, SEMICOLON, AND
 sql_statement: $
+agg_fn: LPAREN
+id_or_agg_fn: COMMA, NOT, EQUALS, LIKE, GREATER, BETWEEN, LESS, IS, FROM
 select_statement: $
 insert_statement: $
 value_list_tail: RPAREN
