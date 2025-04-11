@@ -95,9 +95,9 @@ class Lexer {
 
             
             // Handle numbers
-            if (Character.isDigit(c)) {
+            if (Character.isDigit(c) || c=='-') {
                 int start = i;
-                while (i < input.length() && (Character.isDigit(input.charAt(i)) || input.charAt(i) == '.')) {
+                while (i < input.length() && (Character.isDigit(input.charAt(i)) || input.charAt(i) == '.' || input.charAt(i) == '-')) {
                     i++;
                 }
                 if(input.substring(start, i).matches("[-+]?\\d+(\\.\\d+)?")) {
